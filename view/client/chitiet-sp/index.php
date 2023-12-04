@@ -169,7 +169,7 @@ extract($productDetail);
                                     <div class="media">
                                         <div class="d-flex">
                                             <?php if (isset($image)): ?>
-                                                <img src="<?= $UPLOAD_IMG_URL ?>/users/<?= $image ?>" alt="user-avatar"
+                                                <img src="<?= $UPLOAD_IMG_URL ?>/users/<?= $ANHUS ?>" alt="user-avatar"
                                                     width="60px" height="60px">
                                             <?php else: ?>
                                                 <img src="<?= $UPLOAD_IMG_URL ?>/users/matdinh.jpg" alt="user-avatar"
@@ -247,7 +247,7 @@ extract($productDetail);
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-8 offset-2">
-                                        <img src="<?= $UPLOAD_IMG_URL ?>/products/<?= $image ?>"
+                                        <img src="<?= $UPLOAD_IMG_URL ?>/products/<?=$anhSanPham?>"
                                             class="rounded mx-auto d-block " height="120px" alt="...">
                                     </div>
                                 </div>

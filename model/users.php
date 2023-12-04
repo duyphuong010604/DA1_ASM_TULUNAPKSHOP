@@ -91,7 +91,7 @@ class user
             $image_name = date('YmdHis') . '.' . $image_ext;
 
             // cau hinh duong dan de di chuyen file 
-            $path = "../Client_DUAN1/uploads/users/" . $image_name;
+            $path = "../DA1_ASM_TULUNAPKSHOP/uploads/users/" . $image_name;
 
             $kq = move_uploaded_file($file, $path);
             if ($kq) {     

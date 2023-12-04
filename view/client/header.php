@@ -29,7 +29,7 @@
                                             extract($categoryRow);
                                         ?>
                                 <li class="nav-item"><a class="nav-link" href="<?= $ROOT_URL ?>/routerClient.php?act=sanphamtheomuc&categoryId=<?=$categoryId?>"><?=$name?>
-                                        Thao</a></li>
+                                        </a></li>
                                         <?endforeach;?>
                                
                             </ul>

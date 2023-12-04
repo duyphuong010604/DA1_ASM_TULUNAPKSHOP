@@ -24,7 +24,7 @@ class comment
     public function get_list_client($productId)
     {
         $db = new connect();
-        $sql = "SELECT  * FROM comments CM 
+        $sql = "SELECT  *, US.image as 'ANHUS' FROM comments CM 
         INNER JOIN commentdetails CMD ON CMD.DcommentId = CM.commentId
         INNER JOIN users US ON US.userId = CM.fk_userId
         INNER JOIN products PD ON PD.productId = CMD.DproductId WHERE CM.status = 1 and PD.productId = ". $productId;
