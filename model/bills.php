@@ -74,7 +74,7 @@ class bill
     {
         $db = new connect();
         $sql = "SELECT  BI.billId, BI.totalBill, BI.priceReduced, SUM(BD.quantity) AS 'TONGSOLUONG', BI.address, BI.dateCreated FROM `bills` BI INNER JOIN billdetails BD on BD.DbillId = billId WHERE BI.fk_userId = $billId
-        GROUP BY  BI.billId, BI.totalBill, BI.priceReduced, BI.address, BI.dateCreated";
+        GROUP BY  BI.billId, BI.totalBill, BI.priceReduced, BI.address, BI.dateCreated ORDER BY BI.billId DESC";
         $result = $db->pdo_query($sql);
         return $result;
     }

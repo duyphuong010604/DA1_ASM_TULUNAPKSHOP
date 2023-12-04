@@ -51,12 +51,12 @@
                                 <li>
                                     <div class="dropdown-divider"></div>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a class="dropdown-item" href="<?= $ROOT_URL ?>/routerAdmin.php?act=quanlytaikhoan">
                                         <i class="bx bx-user me-2"></i>
                                         <span class="align-middle">Thông tin tài khoản</span>
                                     </a>
-                                </li>
+                                </li> -->
 
 
                                 <li>
