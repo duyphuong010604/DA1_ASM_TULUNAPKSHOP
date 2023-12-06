@@ -202,7 +202,7 @@
                                                                                                                 }
                                                                                                                 ?>>Thanh toán</a>
                                     <?php if (isset($Note['tren1k']))
-                                        echo "<br><span class='text-star ms-3' style='color: red;'>" .  $Note['tren1k'] . "</span><br>"; ?>
+                                        echo "<br><span class='text-star ms-5' style='color: red;'>" .  $Note['tren1k'] . "</span><br>"; ?>
                                 </div>
                             </td>
                         </tr>

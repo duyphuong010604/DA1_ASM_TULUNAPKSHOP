@@ -13,8 +13,7 @@
                 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                     
                     <form class="d-flex" action="<?= $ROOT_URL ?>/routerClient.php?act=timkiemsanpham" method='post'>
-                        <input class="genric-btn border circle" type="search" placeholder="Tìm kiếm &amp; nhấn enter" name='search'>
-                        
+                        <input class="genric-btn border circle" type="search" placeholder="Tìm kiếm &amp; nhấn enter" name='search' >
                     </form>
                     <ul class="nav navbar-nav menu_nav ml-auto">
                         <li class="nav-item "><a class="nav-link" href="<?= $ROOT_URL ?>/routerClient.php?act=home">Trang chủ</a></li>
@@ -58,7 +57,7 @@
                                     <?php if (isset($image)) : ?>
                                         <img src="<?= $UPLOAD_IMG_URL ?>/users/<?= $image ?>" alt="user-avatar" width="30px" height="30px">
                                     <?php else : ?>
-                                        <img src="<?= $UPLOAD_IMG_URL ?>/users/matdinh.jpg" alt="user-avatar" width="30px" height="30px" />
+                                        <img src="<?= $UPLOAD_IMG_URL ?>/matdinh.webp" alt="user-avatar" width="30px" height="30px" />
                                     <?php endif; ?>
                                     
                                     <span>

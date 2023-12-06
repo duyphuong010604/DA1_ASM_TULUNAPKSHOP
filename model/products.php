@@ -27,7 +27,10 @@ class product
     public function get_list_client()
     {
         $db = new connect();
-        $sql = "SELECT * FROM products where status = 1";
+        $sql = "SELECT PD.productId, PD.image, PD.price, PD.name FROM products PD
+        INNER JOIN categorys CA on CA.categoryId = PD.fk_categoryId
+        WHERE PD.status = 1 AND CA.status = 1
+        ORDER BY PD.productId DESC";
         $result = $db->pdo_query($sql);
         return $result;
 
@@ -65,7 +68,7 @@ class product
     public function get_list_client_home()
     {
         $db = new connect();
-        $sql = "SELECT * FROM products where status = 1 Limit 8";
+        $sql = "SELECT * FROM products where status = 1 ORDER BY productId DESC Limit 8 ";
         $result = $db->pdo_query($sql);
         return $result;
 

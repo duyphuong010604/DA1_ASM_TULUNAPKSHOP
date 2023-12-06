@@ -21,6 +21,7 @@
             <section class="lattest-product-area pb-40 category-list">
                 <div class="row">
                     <?php
+                    // $timkiem = $_GET['search'];
                     if($productList = $product->get_list_timkiem($timkiem)):
                     foreach ($productList as $productRow):
                         extract($productRow);

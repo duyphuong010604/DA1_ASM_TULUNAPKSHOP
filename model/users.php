@@ -46,16 +46,16 @@ class user
         return $result;
     }
 
-    public function update_ql_tk($userId,$username, $email, $fullname, $phone, $address){
+    public function update_ql_tk($userId, $email, $fullname, $phone, $address){
         $db=new connect();
-        $sql = "UPDATE `users` SET `username`='$username',`email`='$email',`fullname`='$fullname',`phone`='$phone',`address`='$address' WHERE userId = '$userId'";
+        $sql = "UPDATE `users` SET `email`='$email',`fullname`='$fullname',`phone`='$phone',`address`='$address' WHERE userId = '$userId'";
         $result = $db->pdo_execute($sql);
         return $result;
     }
 
     public function update_ql_tk_password($userId,$password){
         $db=new connect();
-        $sql = "UPDATE `users` SET `password`='$password' WHERE userId = '$userId'";
+        $sql = "UPDATE `users` SET `password`= '$password' WHERE userId = '$userId'";
         $result = $db->pdo_execute($sql);
         return $result;
     }

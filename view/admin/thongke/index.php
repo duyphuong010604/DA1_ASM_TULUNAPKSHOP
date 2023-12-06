@@ -244,7 +244,7 @@
                                 $BANGTRON = $thongke->BANGTRON();
                                 foreach($BANGTRON as $key){
                                     extract($key);
-                                    $value = array("label" => "$name", "y" => ($SOSANPHAM/$DEMCATEGORY)*100);
+                                    $value = array("label" => "$name", "y" => ($SOSANPHAM/$DEMPRODUCT)*100);
                                     array_push($dataPoints, $value);
                                 }
                                 

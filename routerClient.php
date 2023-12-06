@@ -27,7 +27,7 @@ include "model/bills.php";
 $bill = new bill();
 
 
-if (!isset($_SESSION['myCart'])) {
+if(!isset($_SESSION['myCart'])) {
     $_SESSION['myCart'] = [];
 }
 ?>
@@ -75,20 +75,20 @@ if (!isset($_SESSION['myCart'])) {
 
     include("view/client/header.php");
 
-    if (isset($_GET["act"])) {
-        switch ($_GET['act']) {
+    if(isset($_GET["act"])) {
+        switch($_GET['act']) {
             case 'login':
-                if (isset($_POST['dangnhap'])) {
+                if(isset($_POST['dangnhap'])) {
                     $username = isset($_POST['username']) ? trim($_POST['username']) : '';
-                    $password = isset($_POST['password']) ? trim($_POST['password']) : '';
+                    $password = isset($_POST['password']) ? trim(md5($_POST['password'])) : '';
                     $dongy = $_POST['dongy'] ?? '';
                     $errors = $clientController->validation_dangnhap($username, $password, $dongy);
 
-                    if ($errors == 1) {
+                    if($errors == 1) {
                         $result = $user->checkUser($username, $password);
-                        if ($result) {
+                        if($result) {
                             $listUser = $user->userid_login($username, $password);
-                            if ($listUser) {
+                            if($listUser) {
                                 extract($listUser);
                                 $_SESSION['username'] = $username;
                                 $_SESSION['userId'] = $userId;
@@ -96,9 +96,8 @@ if (!isset($_SESSION['myCart'])) {
                             } else {
                                 $Note['message'] = "Tài khoản của bạn hiện tại đã bị chặn bởi quản trị viên chặn!";
                             }
-
                         } else {
-                            $Note['message'] = "Tài khoản chưa được đăng ký!";
+                            $Note['message'] = "Tài khoản chưa được đăng ký hoặc mật khẩu và tên đăng nhập không trùng khớp!";
                         }
                     }
                 }
@@ -106,20 +105,20 @@ if (!isset($_SESSION['myCart'])) {
                 break;
 
             case 'register':
-                if (isset($_POST['dangki'])) {
+                if(isset($_POST['dangki'])) {
                     $username = isset($_POST['username']) ? trim($_POST['username']) : '';
                     $password = isset($_POST['password']) ? trim($_POST['password']) : '';
                     $dongy = $_POST['dongy'] ?? '';
                     $email = isset($_POST['email']) ? trim($_POST['email']) : '';
                     $errors = $clientController->validation_dangki($username, $password, $dongy, $email);
-                    if ($errors == 1) {
-                        if ($user->CheckName($username)) {
+                    if($errors == 1) {
+                        if($user->CheckName($username)) {
                             $Note['message'] = "Tên tài khoản đã được đăng kí!";
                         } else {
                             $result = $user->add_client($username, $password, $email, 1);
                             $listUser = $user->userid($username, $password, $email);
                             extract($listUser);
-                            if ($result) {
+                            if($result) {
                                 $_SESSION['username'] = $username;
                                 $_SESSION['userId'] = $userId;
                                 header("Location: routerClient.php?act=home");
@@ -134,9 +133,9 @@ if (!isset($_SESSION['myCart'])) {
             case 'dangxuat':
                 unset($_SESSION['username']);
                 unset($_SESSION['userId']);
-                unset ($_SESSION['discount']) ;
-                unset ($_SESSION['conditionDiscount']) ;
-                unset ($_SESSION['promotionId']) ;
+                unset($_SESSION['discount']);
+                unset($_SESSION['conditionDiscount']);
+                unset($_SESSION['promotionId']);
                 unset($_SESSION['myCart']);
                 header('Location: routerClient.php');
                 exit;
@@ -144,10 +143,10 @@ if (!isset($_SESSION['myCart'])) {
             case 'sanpham':
                 include("view/client/sanpham/index.php");
                 break;
-                case 'timkiemsanpham':
-                    $timkiem = $_POST['search'];
-                    include("view/client/timkiemsanpham/index.php");
-                    break;
+            case 'timkiemsanpham':
+                $timkiem = $_POST['search'];
+                include("view/client/timkiemsanpham/index.php");
+                break;
 
             case 'chitiet-sp':
 
@@ -161,14 +160,14 @@ if (!isset($_SESSION['myCart'])) {
                 break;
 
             case 'gopy':
-                if (isset($_POST['gopy'])) {
+                if(isset($_POST['gopy'])) {
                     $name = isset($_POST['name']) ? trim($_POST['name']) : '';
                     $email = isset($_POST['email']) ? trim($_POST['email']) : '';
                     $content = isset($_POST['content']) ? trim($_POST['content']) : '';
                     $errors = $clientController->validation_gopy($name, $email, $content);
-                    if ($errors == 1) {
+                    if($errors == 1) {
                         $result = $feedback->add($email, $name, 9, $content);
-                        if ($result) {
+                        if($result) {
                             $Note['message_gopy_true'] = "Gửi thành công.";
                         } else {
                             $Note['message_gopy_false'] = "Đã có lỗi xảy ra.";
@@ -178,49 +177,45 @@ if (!isset($_SESSION['myCart'])) {
                 include("view/client/goy/index.php");
                 break;
             case 'quanly-tk':
-                if (isset($_POST['gui'])) {
+                if(isset($_POST['gui'])) {
                     $image = trim($_FILES['image']['name']);
                     $imageOld = $_POST['imageOld'];
-                    if (strlen($image) >= 4) {
+                    if(strlen($image) >= 4) {
                         $imageUpload = $user->upload();
                         $result = $user->update_image($_SESSION['userId'], $imageUpload);
-                        if ($result) {
+                        if($result) {
                             $Note['true'] = 'Thay đổi ảnh đại diện thành công.';
                         } else {
                             $Note['false'] = 'Thay đổi ảnh đại diện thất bại.';
                         }
                     } else {
                         $result = $user->update_image($_SESSION['userId'], $imageOld);
-                        if ($result) {
+                        if($result) {
                             $Note['true'] = 'Ảnh đại diện chưa có thay đổi mới.';
                         } else {
                             $Note['false'] = 'Đã có lỗi xảy ra.';
                         }
                     }
                 }
-                if (isset($_POST['luu'])) {
+                if(isset($_POST['luu'])) {
                     $username = isset($_POST['username']) ? trim($_POST['username']) : '';
                     $fullname = isset($_POST['fullname']) ? trim($_POST['fullname']) : '';
                     $phone = isset($_POST['phone']) ? trim($_POST['phone']) : '';
                     $address = isset($_POST['address']) ? trim($_POST['address']) : '';
                     $email = isset($_POST['email']) ? trim($_POST['email']) : '';
-                    if ($user->CheckName($username)) {
-                        $Note['message_username'] = 'Đã có lỗi xảy ra có thể tên đăng nhập đã có từ trước!';
-                    } else {
-                        $result = $user->update_ql_tk($_SESSION['userId'], $username, $email, $fullname, $phone, $address);
-                        if ($result) {
-                            $Note['message'] = 'Cập nhật thành công thông tin!';
-                        } else {
-                            $Note['message'] = 'Đã có lỗi xảy ra!';
-                        }
-                    }
 
+                    $result = $user->update_ql_tk($_SESSION['userId'], $email, $fullname, $phone, $address);
+                    if($result) {
+                        $Note['message'] = 'Cập nhật thành công thông tin!';
+                    } else {
+                        $Note['message'] = 'Đã có lỗi xảy ra!';
+                    }
                 }
-                if (isset($_POST['thaydoimatkhau'])) {
-                    $passwordOld = isset($_POST['passwordOld']) ? trim($_POST['passwordOld']) : '';
-                    $passwordNew = isset($_POST['passwordNew']) ? trim($_POST['passwordNew']) : '';
-                    if ($user->checkPassword($_SESSION['userId'], $passwordOld)) {
-                        if (strlen($passwordNew) <= 6 || empty($passwordNew)) {
+                if(isset($_POST['thaydoimatkhau'])) {
+                    $passwordOld = isset($_POST['passwordOld']) ? trim(md5($_POST['passwordOld'])) : '';
+                    $passwordNew = isset($_POST['passwordNew']) ? trim(md5($_POST['passwordNew'])) : '';
+                    if($user->checkPassword($_SESSION['userId'], $passwordOld)) {
+                        if(strlen($passwordNew) <= 5 || empty($passwordNew)) {
                             $Note['message_mk_new'] = 'Vui lòng không để tróng và mật khẩu mới phải từ 6 kí tự!';
                         } else {
                             $result = $user->update_ql_tk_password($_SESSION['userId'], $passwordNew);
@@ -243,16 +238,16 @@ if (!isset($_SESSION['myCart'])) {
                 include("view/client/chinhsach/index.php");
                 break;
             case 'quenmatkhau':
-                if (isset($_POST['quenmatkhau'])) {
+                if(isset($_POST['quenmatkhau'])) {
                     $username = isset($_POST['username']) ? trim($_POST['username']) : '';
                     $email = isset($_POST['email']) ? trim($_POST['email']) : '';
                     $errors = $clientController->validation_quenmatkhau($username, $email);
-                    if ($errors == 1) {
-                        if ($user->checkUser_quenmatkhau($username, $email)) {
+                    if($errors == 1) {
+                        if($user->checkUser_quenmatkhau($username, $email)) {
                             $True['message'] = 'Chúng tôi sẽ gửi mật khẩu mới qua email trên hệ thống!';
                             $matkhaumoi = substr(md5(rand(0, 99999999)), 0, 11);
                             $Qmk_checkid = $user->Checkuserid_quenmatkhau($username, $email);
-                            $sql = "UPDATE users SET password = ? where email= ? AND userId =" . $Qmk_checkid;
+                            $sql = "UPDATE users SET password = ? where email= ? AND userId =".$Qmk_checkid;
                             $conn = $dp->pdo_get_connection();
                             $stmt = $conn->prepare($sql);
                             $stmt->execute([$matkhaumoi, $email]);
@@ -274,7 +269,7 @@ if (!isset($_SESSION['myCart'])) {
                                 $mail->addAddress($email, 'TênNgườiNhận');
                                 $mail->isHTML(true); // Set email format to HTML
                                 $mail->Subject = 'Tôi xin gửi mail này cho bạn về Mật Khẩu Mới';
-                                $noidungthu = 'Mật khẩu hiện tại của tài khoản của bạn:' . '' . $matkhaumoi;
+                                $noidungthu = 'Mật khẩu hiện tại của tài khoản của bạn:'.''.$matkhaumoi;
                                 $mail->Body = $noidungthu;
                                 $mail->smtpConnect(
                                     array(
@@ -298,38 +293,38 @@ if (!isset($_SESSION['myCart'])) {
                 break;
             case 'binhluan':
                 $productId = $_GET['productId'];
-                if (isset($_POST['gui'])) {
+                if(isset($_POST['gui'])) {
 
                     $content = $_POST['content'];
                     $productId = $_POST['productId'];
                     $userId = $_POST['userId'];
                     $errors = $clientController->validation_binhluan($content);
-                    if ($errors == 1) {
+                    if($errors == 1) {
                         unset($_SESSION['meesageComment']);
                         $result = $comment->add_comment($content, $userId);
-                        if ($result) {
+                        if($result) {
                             $moreSuccess = $comment->getById_commentId_first();
                             extract($moreSuccess);
                             $moreDetailComment = $comment->add_comment_Detail_client($commentId, $productId);
-                            if ($moreDetailComment) {
+                            if($moreDetailComment) {
                                 $_SESSION['meesageComment_Success'] = 'Thêm bình luận thành công';
-                                header('Location: routerClient.php?act=chitiet-sp&productId=' . $productId);
+                                header('Location: routerClient.php?act=chitiet-sp&productId='.$productId);
                             }
                         }
                     } else {
                         $_SESSION['meesageComment'] = 'Bình luận chưa được thêm mới do không có nội dung hoặc nội dung quá nhắn!';
-                        header('Location: routerClient.php?act=chitiet-sp&productId=' . $productId);
+                        header('Location: routerClient.php?act=chitiet-sp&productId='.$productId);
                     }
                 }
 
                 break;
             case 'giohang':
-                if (isset($_POST['giohang'])) {
+                if(isset($_POST['giohang'])) {
                     $productId = $_POST['productId'];
                     $name = $_POST['name'];
                     $price = $_POST['price'];
                     $image = $_POST['image'];
-                    if (isset($_POST['quantity']) && $_POST['quantity'] > 0) {
+                    if(isset($_POST['quantity']) && $_POST['quantity'] > 0) {
                         $quantity = $_POST['quantity'];
                     } else {
                         $quantity = 1;
@@ -337,8 +332,8 @@ if (!isset($_SESSION['myCart'])) {
                     $totalPrice = $price * $quantity;
                     $fg = 0;
                     $i = 0;
-                    foreach ($_SESSION['myCart'] as $item) {
-                        if ($item[0] == $productId) {
+                    foreach($_SESSION['myCart'] as $item) {
+                        if($item[0] == $productId) {
                             $quantityNew = $item[4] + $quantity;
                             $_SESSION['myCart'][$i][4] = $quantityNew;
                             $fg = 1;
@@ -347,7 +342,7 @@ if (!isset($_SESSION['myCart'])) {
                         $i++;
                     }
 
-                    if ($fg == 0) {
+                    if($fg == 0) {
                         $productCart = [$productId, $name, $price, $image, $quantity, $totalPrice];
                         $_SESSION['myCart'][] = $productCart;
                     }
@@ -355,17 +350,17 @@ if (!isset($_SESSION['myCart'])) {
 
                     header("Location:routerClient.php?act=giohang");
                 }
-                if (isset($_POST['makhuyenmai'])) {
+                if(isset($_POST['makhuyenmai'])) {
 
                     $makhuyenmai = $_POST['makhuyenmai'];
                     $xetMaKm = $promotion->CheckName($makhuyenmai);
-                    if ($xetMaKm) {
+                    if($xetMaKm) {
                         extract($xetMaKm);
                         $layHang = $promotion->getBypromotionName($name);
                         extract($layHang);
                         $xetNgay = $promotion->getBypromotionToday($promotionId);
                         extract($xetNgay);
-                        if ($starTime <= $Today && $Today <= $endTime) {
+                        if($starTime <= $Today && $Today <= $endTime) {
                             $_SESSION['promotionId'] = $promotionId;
                             $_SESSION['discount'] = $discount;
                             $_SESSION['conditionDiscount'] = $conditionDiscount;
@@ -374,15 +369,12 @@ if (!isset($_SESSION['myCart'])) {
                             $_SESSION['discount'] = 0;
                             $_SESSION['conditionDiscount'] = 0;
                             $_SESSION['promotionId'] = 2;
-
                         }
-
                     } else {
                         $Note['makhuyenmai'] = 'Không tìm thấy mã khuyến mãi!';
                         $_SESSION['discount'] = 0;
                         $_SESSION['conditionDiscount'] = 0;
                         $_SESSION['promotionId'] = 2;
-
                     }
                 }
 
@@ -390,7 +382,7 @@ if (!isset($_SESSION['myCart'])) {
                 include "view/client/giohang/index.php";
                 break;
             case 'thanhtoan':
-                if (isset($_POST['dathang'])) {
+                if(isset($_POST['dathang'])) {
                     $fk_userId = $_POST['fk_userId'];
                     $username = isset($_POST['username']) ? trim($_POST['username']) : '';
                     $phone = isset($_POST['phone']) ? trim($_POST['phone']) : '';
@@ -403,24 +395,23 @@ if (!isset($_SESSION['myCart'])) {
                     $dongy = isset($_POST['dongy']) ? $_POST['dongy'] : '';
                     $errors = $clientController->validation_dathang($username, $address, $dongy, $phone);
 
-                    if ($errors == 1) {
+                    if($errors == 1) {
                         $result = $bill->add($username, $phone, $address, $priceReduced, $totalBill, $paymentType, $fk_userId, $fk_promotionId);
-                        if ($result) {
-                            if (isset($_SESSION['myCart']) && count($_SESSION['myCart']) > 0) {
-                                foreach ($_SESSION['myCart'] as $item) {
+                        if($result) {
+                            if(isset($_SESSION['myCart']) && count($_SESSION['myCart']) > 0) {
+                                foreach($_SESSION['myCart'] as $item) {
                                     $billDetail = $bill->add_billDetail($result, $item[0], $item[4], $item[2], $note);
                                 }
-                                unset ($_SESSION['discount']) ;
-                                unset ($_SESSION['conditionDiscount']) ;
-                                unset ($_SESSION['promotionId']) ;
+                                unset($_SESSION['discount']);
+                                unset($_SESSION['conditionDiscount']);
+                                unset($_SESSION['promotionId']);
                                 unset($_SESSION['myCart']);
                                 header('Location: routerClient.php?act=lichsu');
                             }
                         } else {
                             echo "tb";
                         }
-                    } 
-
+                    }
                 }
                 include("view/client/thanhtoan/index.php");
                 break;
@@ -430,13 +421,13 @@ if (!isset($_SESSION['myCart'])) {
                 include("view/client/thanhtoan/index.php");
                 break;
 
-                case 'lichsu':
+            case 'lichsu':
 
-                    include("view/client/lichsu/index.php");
-                    break;
+                include("view/client/lichsu/index.php");
+                break;
 
             case 'delCart':
-                if (isset($_GET['cartId'])) {
+                if(isset($_GET['cartId'])) {
                     array_splice($_SESSION['myCart'], $_GET['cartId'], 1);
                 } else {
                     $_SESSION['myCart'] = [];

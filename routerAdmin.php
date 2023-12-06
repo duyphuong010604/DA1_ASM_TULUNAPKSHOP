@@ -309,7 +309,7 @@ $thongke = new thongke();
                     if ($result) {
                         header("Location: $ROOT_URL/routerAdmin.php?act=loaisanpham_ds");
                     } else {
-                        //404
+                        
                     }
                 }
                 break;

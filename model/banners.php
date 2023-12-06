@@ -17,7 +17,7 @@ class banner{
     public function get_list_client()
     {
         $db = new connect();
-        $sql = "SELECT * FROM banners where status =1";
+        $sql = "SELECT * FROM banners where status =1 ";
         $result = $db->pdo_query($sql);
         return $result;
     }

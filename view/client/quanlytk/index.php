@@ -46,7 +46,7 @@
                                             <img src="<?= $UPLOAD_IMG_URL ?>/users/<?= $image ?>" alt="user-avatar"
                                                 class="d-block rounded me-5" height="100" width="100" id="uploadedAvatar" />
                                         <?php else: ?>
-                                            <img src="<?= $UPLOAD_IMG_URL ?>/users/matdinh.jpg" alt="user-avatar"
+                                            <img src="<?= $UPLOAD_IMG_URL ?>/matdinh.webp" alt="user-avatar"
                                                 class="d-block rounded me-5" height="100" width="100" id="uploadedAvatar" />
 
                                         <?php endif; ?>
@@ -86,7 +86,7 @@
                                         <div class="mb-3 col-md-6">
                                             <label for="username" class="form-label">Tên đăng nhập</label>
                                             <input class="form-control" type="text" id="username" name="username"
-                                                value="<?= $username ?>" autofocus />
+                                                value="<?= $username ?>" readonly/>
                                         </div>
                                         <div class="mb-3 col-md-6">
                                             <label for="fullname" class="form-label">Họ và tên</label>
@@ -102,7 +102,6 @@
                                         <div class="mb-3 col-md-6">
                                             <label class="form-label" for="phone">Số điện thoại</label>
                                             <div class="input-group input-group-merge">
-                                                <span class="input-group-text">VN (+84)</span>
                                                 <input type="text" id="phone" name="phone" value="<?= $phone ?>"
                                                     class="form-control" placeholder="202 555 0111" />
                                             </div>
@@ -147,7 +146,7 @@
                                         </div>
                                         <div class="mb-3 col-md-6">
                                             <label for="passwordNew" class="form-label">Mật khẩu mới</label>
-                                            <input class="form-control" type="text" id="passwordNew"
+                                            <input class="form-control" type="password" id="passwordNew"
                                                 name="passwordNew" />
                                             <?php if (isset($Note['message_mk_new']))
                                                 echo "<br><span class='text-star' style='color: red;' >" . $Note['message_mk_new'] . "</span><br>"; ?>
