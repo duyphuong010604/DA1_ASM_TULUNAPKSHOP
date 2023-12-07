@@ -85,14 +85,7 @@
                                                         </tr>
                                                     <? endforeach; ?>
                                                 </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>Tổng số lượng</th>
-                                                        <th colspan="2" class="text-end">
-                                                            <?= $quantity ?>
-                                                        </th>
-                                                    </tr>
-                                                </tfoot>
+                                               
                                             </table>
                                         </td>
                                     </tr>

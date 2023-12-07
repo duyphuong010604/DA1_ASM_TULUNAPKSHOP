@@ -6,7 +6,7 @@
         <div class="layout-page">
             <!-- Navbar -->
 
-           
+
 
             <!-- / Navbar -->
 
@@ -29,6 +29,7 @@
                                         <th>Tổng tiền hóa đơn</th>
                                         <th>Số lượng sản phẩm hóa đơn</th>
                                         <th>Ngày xuất hóa đơn</th>
+                                        <th>Trạng thái hóa đơn</th>
                                         <th>Tùy chọn</th>
                                     </tr>
                                 </thead>
@@ -39,15 +40,36 @@
                                         extract($row);
                                         ?>
                                         <tr>
-                                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><?=$billId?></strong>
+                                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>
+                                                    <?= $billId ?>
+                                                </strong>
                                             </td>
                                             <td>
-                                                <?=number_format($totalBill)?> VNĐ
+                                                <?= number_format($totalBill) ?> VNĐ
                                             </td>
-                                            <td><?=$TONGSOLUONG?></td>
-                                            <td><?=$dateCreated?></td>
+                                            <td>
+                                                <?= $TONGSOLUONG ?>
+                                            </td>
+                                            <td>
+                                                <?= $dateCreated ?>
+                                            </td>
 
-                                            
+                                            <td>
+                                            <?php $editBill = "routerAdmin.php?act=hoadon_ds"; ?>
+                                            <form action="<?= $editBill ?>" method="post">
+                                                    <input type="hidden" value="<?= $billId ?>" name="billId">
+                                                    
+                                                    <select name="status" id="status" class='form-control border  <?=($TRANGTHAI==9)?"border-success":"border-secondary";?>' >
+                                                        <option value=1 <? if ($TRANGTHAI == 1)
+                                                                            echo "selected" ?>>Đang chuẩn bị hàng
+                                                        </option>
+                                                        <option value=9 <? if ($TRANGTHAI == 9)
+                                                                            echo "selected" ?>>Đơn hàng đang được giao
+                                                        </option>
+                                                    </select>
+                                                    <button type="submit" class='btn btn-outline-success mt-1' name='luu'>Lưu</button>
+                                                </form>
+                                            </td>
                                             <td>
                                                 <div class="dropdown">
                                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -55,7 +77,8 @@
                                                         <i class="bx bx-dots-vertical-rounded"></i>
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="routerAdmin.php?act=hoadon_chitiet&billId=<?=$billId?>"><i
+                                                        <a class="dropdown-item"
+                                                            href="routerAdmin.php?act=hoadon_chitiet&billId=<?= $billId ?>"><i
                                                                 class='bx bx-detail me-1'></i>Chi tiết</a>
                                                     </div>
                                                 </div>

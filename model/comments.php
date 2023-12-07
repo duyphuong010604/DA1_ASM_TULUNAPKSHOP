@@ -14,7 +14,7 @@ class comment
     public function get_list()
     {
         $db = new connect();
-        $sql = "SELECT * FROM comments ";
+        $sql = "SELECT * FROM comments ORDER BY commentId DESC ";
         $result = $db->pdo_query($sql);
         return $result;
     }

@@ -37,12 +37,13 @@ class bill
     public function get_list()
     {
         $db = new connect();
-        $sql = "SELECT BI.billId, BI.totalBill,SUM(BD.quantity) AS 'TONGSOLUONG', BI.dateCreated
+        $sql = "SELECT BI.billId, BI.totalBill,SUM(BD.quantity) AS 'TONGSOLUONG', BI.dateCreated, BD.status AS 'TRANGTHAI'
         FROM `bills` BI INNER JOIN billdetails BD ON BD.DbillId = BI.billId 
         INNER JOIN products PD ON PD.productId = BD.DproductId
         INNER JOIN users US ON US.userId = BI.fk_userId
         INNER JOIN promotions PR ON PR.promotionId = BI.fk_promotionId
-        GROUP BY BI.billId,BI.totalBill,'TONGSOLUONG'";
+        GROUP BY BI.billId,BI.totalBill,'TONGSOLUONG',BD.status
+        ORDER BY BI.billId DESC";
         $result = $db->pdo_query($sql);
         return $result;
     }
@@ -73,8 +74,11 @@ class bill
     public function getById_lichsu($billId)
     {
         $db = new connect();
-        $sql = "SELECT  BI.billId, BI.totalBill, BI.priceReduced, SUM(BD.quantity) AS 'TONGSOLUONG', BI.address, BI.dateCreated FROM `bills` BI INNER JOIN billdetails BD on BD.DbillId = billId WHERE BI.fk_userId = $billId
-        GROUP BY  BI.billId, BI.totalBill, BI.priceReduced, BI.address, BI.dateCreated ORDER BY BI.billId DESC";
+        $sql = "SELECT  BI.billId, BI.totalBill, BI.priceReduced, SUM(BD.quantity) AS 'TONGSOLUONG', BI.address, BI.dateCreated, BD.status AS 'TRANGTHAI', BI.paymentType AS 'THANHTOANBANG'
+        FROM `bills` BI INNER JOIN billdetails BD on BD.DbillId = billId 
+        WHERE BI.fk_userId = $billId
+                GROUP BY  BI.billId, BI.totalBill, BI.priceReduced, BI.address, BI.dateCreated,BD.status,BI.paymentType  ORDER BY BI.billId DESC";
+        
         $result = $db->pdo_query($sql);
         return $result;
     }
@@ -123,5 +127,18 @@ class bill
         $sql = "SELECT DATE(dateCreated) AS 'NGAY', SUM(totalBill) AS 'TONGTIEN', COUNT(billId) AS 'TONGSOLUOT' FROM `bills` GROUP BY DATE(dateCreated);";
         $result = $db->pdo_query($sql);
         return $result;
+    }
+
+    public function update($billId, $status){
+        $db=new connect();
+        $sql = "UPDATE `billdetails` SET `status`='$status' WHERE `DbillId`=$billId";
+        $result = $db->pdo_execute($sql);
+        return $result;
+    }
+
+    public function get_list_dangchuanbi(){
+        $db = new connect();
+        $select = "select * from billDetails where `status` = 1";
+        return $db->pdo_query($select);
     }
 }

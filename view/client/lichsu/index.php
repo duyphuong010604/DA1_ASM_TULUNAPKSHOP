@@ -27,23 +27,65 @@
                         <th scope="col">Số lượng sản phẩm</th>
                         <th scope="col">Địa chỉ nhận hàng</th>
                         <th scope="col">Ngày đặt hàng</th>
+                        <th scope="col">Thanh toán bằng</th>
+                        <th scope="col">Trạng thái đơn hàng</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php $billList_user = $bill->getById_lichsu($_SESSION['userId']);
-                    
-                    foreach($billList_user as $item):
+
+                    foreach ($billList_user as $item) :
                         extract($item);
                     ?>
-                    <tr>
-                        <th><?=$billId?></th>
-                        <td><?=number_format($totalBill)?> VNĐ</td>
-                        <td><?=number_format($priceReduced)?> VNĐ</td>
-                        <td><?=$TONGSOLUONG?></td>
-                        <td><?=$address?></td>
-                        <td><?=$dateCreated?></td>
-                    </tr>
-                   <?php endforeach;?>
+                        <tr>
+                            <th>
+                                <?= $billId ?>
+                            </th>
+                            <td>
+                                <?= number_format($totalBill) ?> VNĐ
+                            </td>
+                            <td>
+                                <?= number_format($priceReduced) ?> VNĐ
+                            </td>
+                            <td>
+                                <?= $TONGSOLUONG ?>
+                            </td>
+                            <td>
+                                <?= $address ?>
+                            </td>
+                            <td>
+                                <?= $dateCreated ?>
+                            </td>
+                            <td>
+                                <?
+                                if ($THANHTOANBANG == 1) {
+                                    echo "Tiền mặt khi nhận hàng.";
+                                }
+                                if ($THANHTOANBANG == 9) {
+                                    echo "Chuyển khoản.";
+                                }
+                                ?>
+                            </td>
+                            <td>
+                                <span class="badge 
+                                                <? if ($TRANGTHAI == 1)
+                                                    echo ' badge-primary';
+                                                if ($TRANGTHAI == 9)
+                                                    echo 'badge-success';
+                                                ?> me-1">
+                                    <?
+                                    if ($TRANGTHAI == 1) {
+                                        echo "Đang chuẩn bị hàng.";
+                                    }
+                                    if ($TRANGTHAI == 9) {
+                                        echo "Đơn hàng đang được giao.";
+                                    }
+                                    ?>
+                                </span>
+
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
 

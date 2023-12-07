@@ -80,7 +80,7 @@ if(!isset($_SESSION['myCart'])) {
             case 'login':
                 if(isset($_POST['dangnhap'])) {
                     $username = isset($_POST['username']) ? trim($_POST['username']) : '';
-                    $password = isset($_POST['password']) ? trim(md5($_POST['password'])) : '';
+                    $password = isset($_POST['password']) ? trim($_POST['password']): '';
                     $dongy = $_POST['dongy'] ?? '';
                     $errors = $clientController->validation_dangnhap($username, $password, $dongy);
 
@@ -143,6 +143,7 @@ if(!isset($_SESSION['myCart'])) {
             case 'sanpham':
                 include("view/client/sanpham/index.php");
                 break;
+            
             case 'timkiemsanpham':
                 $timkiem = $_POST['search'];
                 include("view/client/timkiemsanpham/index.php");
@@ -212,8 +213,8 @@ if(!isset($_SESSION['myCart'])) {
                     }
                 }
                 if(isset($_POST['thaydoimatkhau'])) {
-                    $passwordOld = isset($_POST['passwordOld']) ? trim(md5($_POST['passwordOld'])) : '';
-                    $passwordNew = isset($_POST['passwordNew']) ? trim(md5($_POST['passwordNew'])) : '';
+                    $passwordOld = isset($_POST['passwordOld']) ? trim($_POST['passwordOld']) : '';
+                    $passwordNew = isset($_POST['passwordNew']) ? trim($_POST['passwordNew']) : '';
                     if($user->checkPassword($_SESSION['userId'], $passwordOld)) {
                         if(strlen($passwordNew) <= 5 || empty($passwordNew)) {
                             $Note['message_mk_new'] = 'Vui lòng không để tróng và mật khẩu mới phải từ 6 kí tự!';

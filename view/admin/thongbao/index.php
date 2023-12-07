@@ -69,6 +69,30 @@
                         <?php endforeach; ?>
                         </div>
                         <!-- Bootstrap Table with Header - Footer -->
+                        <?php
+                        $tbBill = $bill->get_list_dangchuanbi();
+                        foreach ($tbBill as $BillRow) :
+                            extract($BillRow);
+                            $billList = "routerAdmin.php?act=hoadon_ds";
+                        ?>
+                            <p class="ms-4">Đơn hàng mới cần được giao</p>
+                            <div class=" p-2 table-responsive text-nowrap">
+                                <div class="card  border-success border" style="width: 100%;">
+
+                                    <div class="card-body text-end">
+                                        <h5 class="card-title">Đơn hàng có mã: <?= $DbillId?></h5>
+                                        <p class="card-text">Trạng thái:
+                                            <?= ($status == 1) ? "Đang chuẩn bị hàng" : "Đơn hàng đang được giao"; ?>
+                                        </p>
+                                        <p class="card-text">
+                                          Ghi chú từ khách hàng: <?=$note?>
+                                        </p>
+                                        <a href="<?= $billList ?>" class="btn btn-outline-success">Xem chi tiết</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                        </div>
 
 
                 </div>

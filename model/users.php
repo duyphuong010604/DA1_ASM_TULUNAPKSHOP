@@ -14,7 +14,7 @@ class user
 
     public function get_list(){
         $db = new connect();
-        $sql = "SELECT * FROM users";
+        $sql = "SELECT * FROM users ORDER BY userId DESC";
         $result = $db->pdo_query($sql);
         return $result;
 

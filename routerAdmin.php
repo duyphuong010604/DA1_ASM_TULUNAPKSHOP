@@ -30,13 +30,11 @@ $thongke = new thongke();
 ?>
 <!-- Controller chuyển trang được cung cấp layout từ view -->
 <!DOCTYPE html>
-<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default"
-    data-assets-path="<?= $CONTENT_URL ?>/admin/assets/" data-template="vertical-menu-template-free">
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="<?= $CONTENT_URL ?>/admin/assets/" data-template="vertical-menu-template-free">
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>ADMIN</title>
 
@@ -48,23 +46,18 @@ $thongke = new thongke();
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="<?= $CONTENT_URL ?>/admin/assets/vendor/fonts/boxicons.css" />
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="<?= $CONTENT_URL ?>/admin/assets/vendor/css/core.css"
-        class="template-customizer-core-css" />
-    <link rel="stylesheet" href="<?= $CONTENT_URL ?>/admin/assets/vendor/css/theme-default.css"
-        class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="<?= $CONTENT_URL ?>/admin/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="<?= $CONTENT_URL ?>/admin/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="<?= $CONTENT_URL ?>/admin/assets/css/demo.css" />
 
     <!-- Vendors CSS -->
-    <link rel="stylesheet"
-        href="<?= $CONTENT_URL ?>/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="<?= $CONTENT_URL ?>/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
     <link rel="stylesheet" href="<?= $CONTENT_URL ?>/admin/assets/vendor/libs/apex-charts/apex-charts.css" />
 
@@ -101,12 +94,14 @@ $thongke = new thongke();
                 break;
             case 'taikhoan_kh_xoa':
                 $userId = $_GET['userId'];
+                try {
 
-                $result = $user->delete($userId);
-                if ($result) {
-                    header("Location: $ROOT_URL/routerAdmin.php?act=taikhoan_kh_ds");
-                } else {
-                    //404
+                    $result = $user->delete($userId);
+                    if ($result) {
+                        header("Location: $ROOT_URL/routerAdmin.php?act=taikhoan_kh_ds");
+                    }
+                } catch (PDOException $e) {
+                    header("Location: $ROOT_URL/view/errors/404.php");
                 }
                 break;
             case 'taikhoan_kh_sua':
@@ -205,11 +200,13 @@ $thongke = new thongke();
             case 'brand_xoa':
 
                 $brandId = $_GET['brandId'];
-                $result = $brand->delete($brandId);
-                if ($result) {
-                    header("Location: $ROOT_URL/routerAdmin.php?act=brand_ds");
-                } else {
-                    //404
+                try {
+                    $result = $brand->delete($brandId);
+                    if ($result) {
+                        header("Location: $ROOT_URL/routerAdmin.php?act=brand_ds");
+                    }
+                } catch (PDOException $e) {
+                    header("Location: $ROOT_URL/view/errors/404.php");
                 }
 
                 break;
@@ -305,11 +302,13 @@ $thongke = new thongke();
             case 'loaisanpham_xoa':
                 if (isset($_POST['xoa'])) {
                     $categoryId = $_GET['categoryId'];
-                    $result = $category->delete($categoryId);
-                    if ($result) {
-                        header("Location: $ROOT_URL/routerAdmin.php?act=loaisanpham_ds");
-                    } else {
-                        
+                    try {
+                        $result = $category->delete($categoryId);
+                        if ($result) {
+                            header("Location: $ROOT_URL/routerAdmin.php?act=loaisanpham_ds");
+                        }
+                    } catch (PDOException $e) {
+                        header("Location: $ROOT_URL/view/errors/404.php");
                     }
                 }
                 break;
@@ -359,11 +358,14 @@ $thongke = new thongke();
             case 'sanpham_xoa':
                 if (isset($_POST['xoa'])) {
                     $productId = $_GET['productId'];
-                    $result = $product->delete($productId);
-                    if ($result) {
-                        header("Location: $ROOT_URL/routerAdmin.php?act=sanpham_ds");
-                    } else {
-                        echo "loi";
+                    
+                    try {
+                        $result = $product->delete($productId);
+                        if ($result) {
+                            header("Location: $ROOT_URL/routerAdmin.php?act=sanpham_ds");
+                        }
+                    } catch (PDOException $e) {
+                        header("Location: $ROOT_URL/view/errors/404.php");
                     }
                 }
                 break;
@@ -425,16 +427,26 @@ $thongke = new thongke();
                     if ($updateComment && $updateDetail) {
                         header("Location: $ROOT_URL/routerAdmin.php?act=binhluan_ds");
                     }
-
                 }
                 include "view/admin/binhluan_sua/index.php";
                 break;
             case 'hoadon_ds':
+                if(isset($_POST['luu'])){
+                    $DbillId = $_POST['billId'];
+                    $status = $_POST['status'];
+                    $result = $bill->update($DbillId, $status);
+                    if ($result) {
+                        echo $Note['true'] = 'Đã thay đổi trạng thái!';
+                    } else {
+                        echo $Note['false'] = 'Thay đổi trạng thái không thành công!';
+                    }
+                }
+
                 include "view/admin/hoadon_ds/index.php";
                 break;
-                case 'hoadon_chitiet':
-                    include "view/admin/hoadon_chitiet/index.php";
-                    break;
+            case 'hoadon_chitiet':
+                include "view/admin/hoadon_chitiet/index.php";
+                break;
             case 'banner_ds':
                 include "view/admin/banner_ds/index.php";
                 break;
@@ -477,11 +489,14 @@ $thongke = new thongke();
             case 'banner_xoa':
                 if (isset($_POST['xoa'])) {
                     $bannerId = $_GET['bannerId'];
-                    $result = $banner->delete($bannerId);
-                    if ($result) {
-                        header("Location: $ROOT_URL/routerAdmin.php?act=banner_ds");
-                    } else {
-                        echo "loi";
+
+                    try {
+                        $result = $banner->delete($bannerId);
+                        if ($result) {
+                            header("Location: $ROOT_URL/routerAdmin.php?act=banner_ds");
+                        }
+                    } catch (PDOException $e) {
+                        header("Location: $ROOT_URL/view/errors/404.php");
                     }
                 }
                 break;
@@ -526,7 +541,6 @@ $thongke = new thongke();
                     } else {
                         $Note['message'] = 'Đã có lỗi xảy ra!';
                     }
-
                 }
 
                 include "view/admin/khuyenmai_sua/index.php";
@@ -534,11 +548,14 @@ $thongke = new thongke();
             case 'khuyenmai_xoa':
                 if (isset($_POST['xoa'])) {
                     $promotionId = $_GET['promotionId'];
-                    $result = $promotion->delete($promotionId);
-                    if ($result) {
-                        header("Location: $ROOT_URL/routerAdmin.php?act=khuyenmai_ds");
-                    } else {
-                        echo "loi";
+
+                    try {
+                        $result = $promotion->delete($promotionId);
+                        if ($result) {
+                            header("Location: $ROOT_URL/routerAdmin.php?act=khuyenmai_ds");
+                        }
+                    } catch (PDOException $e) {
+                        header("Location: $ROOT_URL/view/errors/404.php");
                     }
                 }
                 break;
@@ -563,7 +580,6 @@ $thongke = new thongke();
                                 $Note['message'] = 'Đã có lỗi xảy ra!';
                             }
                         }
-
                     }
                 }
                 include "view/admin/khuyenmai_them/index.php";
@@ -717,6 +733,14 @@ $thongke = new thongke();
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <!-- Phan table -->
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src=" https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        new DataTable('#example');
+    </script>
 </body>
 
 </html>
